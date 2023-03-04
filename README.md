@@ -37,6 +37,7 @@ Using Laravel and VueJS, create an application which shows the weather for a set
   - Setup app key: `php artisan key:generate`
   - Migrate database: `php artisan migrate` 
   - Seed database: `php artisan db:seed`
+  - Make sure your queue is running: `php artisan queue:work`
   - Run tests: `php artisan test`
 - Visit api: `http://localhost`
 
