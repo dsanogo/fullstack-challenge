@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\StoreWeatherData;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -34,10 +35,11 @@ class UserService
     /**
      * @param int $userId
      * @param array $weatherData
-     * @return void
+     * @return array|null
      */
-    public function storeWeaterData(int $userId, array $weatherData)
+    public function storeWeatherData(int $userId, array $weatherData): ?array
     {
-
+        $weatherData['created_at'] = now();
+        return event(new StoreWeatherData($userId, $weatherData));
     }
 }

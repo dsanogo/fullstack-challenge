@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -41,10 +42,17 @@ class User extends Authenticatable
     ];
 
     /**
-     * @return null
+     * @return object
+     * @throws BindingResolutionException
      */
     public function getWeather()
     {
-        return null;
+        $redis = app()->make('redis');
+        $data = $redis->get("weather_$this->id");
+        if ($data) {
+            $data = (array)json_decode($data);
+            $data['expires_in'] = isset($data['created_at']) ? 60 - now()->diffInMinutes($data['created_at']) : 0;
+        }
+        return $data ? (object)$data : null;
     }
 }

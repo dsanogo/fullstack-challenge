@@ -20,7 +20,7 @@ class UserController extends Controller
     /**
      * @return JsonResponse|AnonymousResourceCollection
      */
-    public function index()
+    public function index(): JsonResponse|AnonymousResourceCollection
     {
         try {
             return UserResource::collection($this->userService->fetch());
@@ -33,7 +33,7 @@ class UserController extends Controller
      * @param int $userId
      * @return UserResource|JsonResponse
      */
-    public function show(int $userId)
+    public function show(int $userId): UserResource|JsonResponse
     {
         try {
             return new UserResource($this->userService->get($userId));
@@ -47,11 +47,14 @@ class UserController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function storeWeatherData(int $userId, Request $request)
+    public function storeWeatherData(int $userId, Request $request): JsonResponse
     {
         try {
-            $this->userService->storeWeaterData($userId, $request->get('data'));
-            return response()->json('success');
+            $weatherData = $request->get('data') ?? null;
+            if (!is_null($weatherData)) {
+                $this->userService->storeWeatherData($userId, $request->get('data'));
+            }
+            return response()->json(['status' => 200, 'message' => 'success']);
         }catch (\Exception $exception) {
             return response()->json($exception->getMessage(), 500);
         }
