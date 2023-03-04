@@ -51,7 +51,7 @@ class User extends Authenticatable
         $data = $redis->get("weather_$this->id");
         if ($data) {
             $data = (array)json_decode($data);
-            $data['expires_in'] = isset($data['created_at']) ? 60 - now()->diffInMinutes($data['created_at']) : 0;
+            $data['expires_in'] = isset($data['created_at']) ? 59 - now()->diffInMinutes($data['created_at']) : 0;
         }
         return $data ? (object)$data : null;
     }
