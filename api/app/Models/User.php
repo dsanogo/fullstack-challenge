@@ -39,4 +39,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @return null
+     */
+    public function getWeather()
+    {
+        return null;
+    }
 }
