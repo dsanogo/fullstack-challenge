@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 import Users from "@/apis/users";
-import Openweathermap from "@/apis/openweathermap";
+import OpenWeatherMap from "@/apis/openweathermap";
 
 const store = createStore({
   state: {
@@ -92,7 +92,7 @@ const store = createStore({
 
     getUserWeatherDataFromAPI: (__, user) => {
       return new Promise((resolve, reject) => {
-        Openweathermap.getWeatherData(user)
+        OpenWeatherMap.getWeatherData(user)
           .then((res) => resolve(res))
           .catch((err) => reject(err));
       });
