@@ -68,22 +68,25 @@ export default {
   data() {
     return {
       dialog: false,
-      loading: true,
       selectedUser: null,
       selectedUserWeather: null,
     };
   },
   computed: {
-    ...mapGetters(["users"]),
+    ...mapGetters(["users", "loading"]),
   },
 
   methods: {
     ...mapActions(["fetchUsers"]),
     fetchData() {
-      this.loading = true;
-      this.fetchUsers().then(() => (this.loading = false));
+      this.fetchUsers();
     },
-    handleUserWeatherClick() {},
+    handleUserWeatherClick(data) {
+      const { user, userWeatherData } = data;
+      this.selectedUser = user;
+      this.selectedUserWeather = userWeatherData;
+      this.dialog = true;
+    },
   },
 
   mounted() {

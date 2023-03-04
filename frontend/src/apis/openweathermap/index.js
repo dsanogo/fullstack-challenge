@@ -6,7 +6,7 @@ export default {
   getWeatherData: (user) => {
     const { latitude, longitude } = user;
     return axios.get(
-      `${apiUrl}?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric}`
+      `${apiUrl}?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`
     );
   },
 };

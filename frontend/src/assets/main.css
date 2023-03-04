@@ -1,0 +1,11 @@
+.weather-card {
+    background: #b2c0df80;
+}
+
+.weather-card-lg {
+    background: #b2c0df;
+}
+
+.card-title:hover {
+    cursor: pointer;
+}

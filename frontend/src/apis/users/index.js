@@ -11,6 +11,6 @@ export default {
   },
 
   storeWeatherData: (userId, data) => {
-    return axios.post(`${apiUrl}/${userId}/weather`, data);
+    return axios.post(`${apiUrl}/${userId}/weather`, { data });
   },
 };

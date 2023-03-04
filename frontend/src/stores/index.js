@@ -1,8 +1,10 @@
 import { createStore } from "vuex";
 import Users from "@/apis/users";
+import Openweathermap from "@/apis/openweathermap";
 
 const store = createStore({
   state: {
+    loading: false,
     users: [],
     user: null,
     sampleWeatherData: {
@@ -53,6 +55,7 @@ const store = createStore({
     },
   },
   getters: {
+    loading: (state) => state.loading,
     users: (state) => state.users,
     user: (state) => state.user,
     sample_weather_data: (state) => state.sampleWeatherData,
@@ -65,22 +68,33 @@ const store = createStore({
     SET_USER: (state, payload) => {
       state.user = payload;
     },
+
+    SET_LOADING: (state, payload) => {
+      state.loading = payload;
+    },
   },
   actions: {
     fetchUsers: ({ commit }) => {
-      return new Promise((resolve, reject) => {
-        Users.all()
-          .then((res) => {
-            commit("SET_USERS", res.data.data);
-            resolve(resolve);
-          })
-          .catch((err) => reject(err));
+      commit("SET_LOADING", true);
+      Users.all().then((res) => {
+        commit("SET_USERS", res.data.data);
+        commit("SET_LOADING", false);
       });
     },
 
     getUser: ({ commit }, userId) => {
+      commit("SET_LOADING", true);
       Users.get(userId).then((res) => {
         commit("SET_USER", res.data.data);
+        commit("SET_LOADING", false);
+      });
+    },
+
+    getUserWeatherDataFromAPI: (__, user) => {
+      return new Promise((resolve, reject) => {
+        Openweathermap.getWeatherData(user)
+          .then((res) => resolve(res))
+          .catch((err) => reject(err));
       });
     },
 
